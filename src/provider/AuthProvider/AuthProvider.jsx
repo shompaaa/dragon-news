@@ -18,24 +18,21 @@ const auth = getAuth(app);
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading,setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
-  const googleProvider = new GoogleAuthProvider()
+  const googleProvider = new GoogleAuthProvider();
 
-
- 
   //Register User
   const createUser = (email, password) => {
-    setLoading(true)
+    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
   //Get Current User
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      setLoading(false)
+      setLoading(false);
     });
     return () => {
       unsubscribe();
@@ -43,26 +40,25 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   //Sign In User
-  const loginUser = (email,password)=>{
-    setLoading(true)
-    return signInWithEmailAndPassword(auth,email,password)
-  }
+  const loginUser = (email, password) => {
+    setLoading(true);
+    return signInWithEmailAndPassword(auth, email, password);
+  };
 
   //Google Sign In
-  const googleLogin = ()=>{
-    setLoading(true)
-    return signInWithPopup(auth,googleProvider)
-  }
+  const googleLogin = () => {
+    setLoading(true);
+    return signInWithPopup(auth, googleProvider);
+  };
 
-
-  const updateUser = (updatedData)=>{
-    return updateProfile(auth.currentUser, updatedData)
-  }
+  const updateUser = (updatedData) => {
+    return updateProfile(auth.currentUser, updatedData);
+  };
 
   //Signout User
-  const signOutUser = ()=>{
-    return signOut(auth)
-  }
+  const signOutUser = () => {
+    return signOut(auth);
+  };
 
   const authInfo = {
     user,
@@ -73,7 +69,7 @@ const AuthProvider = ({ children }) => {
     signOutUser,
     loading,
     setLoading,
-    updateUser
+    updateUser,
   };
   return <AuthContext value={authInfo}>{children}</AuthContext>;
 };
