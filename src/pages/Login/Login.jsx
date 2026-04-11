@@ -1,12 +1,20 @@
 import React, { use, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../../provider/AuthProvider/AuthProvider";
+import { IoEye, IoEyeOff } from "react-icons/io5";
 
 const Login = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const { loginUser } = use(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
+
+  const togglePassword = (e) => {
+    e.preventDefault()
+    setShowPassword(!showPassword);
+  
+  };
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -36,13 +44,22 @@ const Login = () => {
               required
             />
             <label className="label">Password</label>
-            <input
-              type="password"
-              name="password"
-              className="input"
-              placeholder="Password"
-              required
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                className="input"
+                placeholder="Password"
+                required
+              />
+              <button onClick={togglePassword}>
+                {showPassword ? (
+                  <IoEye size={20} className="absolute top-3 right-5" />
+                ) : (
+                  <IoEyeOff size={20} className="absolute top-3 right-5" />
+                )}
+              </button>
+            </div>
             {error && <p className="text-xs text-red-500">{error}</p>}
             <div>
               <a className="link link-hover">Forgot password?</a>

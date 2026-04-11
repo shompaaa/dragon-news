@@ -1,9 +1,10 @@
-import React, { use } from "react";
+import React, { use, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../../provider/AuthProvider/AuthProvider";
 
 const Register = () => {
   const { createUser, setUser, updateUser } = use(AuthContext);
+  const [error,setError] = useState('')
   const navigate = useNavigate()
   const handleRegister = (e) => {
     e.preventDefault();
@@ -13,6 +14,11 @@ const Register = () => {
     const password = e.target.password.value;
     const confirmPassword = e.target.confirmPassword.value;
     console.log(name, photo, email, password, confirmPassword);
+
+    if(password !== confirmPassword){
+      setError("password didn't match");
+      return
+    }
 
     //Create User
     createUser(email, password)
@@ -92,6 +98,9 @@ const Register = () => {
               placeholder="Confirm Password"
               required
             />
+            {
+              error && <p className="text-xs text-red-500">{error}</p>
+            }
 
             <button type="submit" className="btn btn-neutral mt-4">
               Register
