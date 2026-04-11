@@ -1,9 +1,10 @@
 import React, { use } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../../provider/AuthProvider/AuthProvider";
 
 const Register = () => {
-    const {createUser,setUser} = use(AuthContext)
+  const { createUser, setUser, updateUser } = use(AuthContext);
+  const navigate = useNavigate()
   const handleRegister = (e) => {
     e.preventDefault();
     const name = e.target.name.value;
@@ -11,13 +12,28 @@ const Register = () => {
     const email = e.target.email.value;
     const password = e.target.password.value;
     const confirmPassword = e.target.confirmPassword.value;
-    console.log(name,photo,email,password,confirmPassword);
+    console.log(name, photo, email, password, confirmPassword);
 
     //Create User
-    createUser(email,password).then(result =>{
+    createUser(email, password)
+      .then((result) => {
         const user = result.user;
-        setUser(user)
-    }).catch(error=>console.log(error))
+        updateUser({ displayName: name, photoURL: photo })
+          .then(() => {
+            setUser({ ...user, displayName: name, photoURL: photo });
+            navigate('/')
+          })
+          .catch((error) =>{
+            console.log(error)
+            setUser(user)
+      });
+          
+            
+      })
+      .catch((error) => {
+        console.log(error);
+       
+      });
   };
   return (
     <div className="flex justify-center items-center min-h-[calc(100vh-73px)]">
