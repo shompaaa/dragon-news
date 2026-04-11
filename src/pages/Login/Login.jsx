@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { AuthContext } from "../../provider/AuthProvider/AuthProvider";
 
 const Login = () => {
-  const { loginUser, setUser } = use(AuthContext);
+  const { loginUser } = use(AuthContext);
 
   const handleLogin = (e) => {
     e.preventDefault();
