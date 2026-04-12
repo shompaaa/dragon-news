@@ -13,7 +13,6 @@ const Register = () => {
     const email = e.target.email.value;
     const password = e.target.password.value;
     const confirmPassword = e.target.confirmPassword.value;
-    console.log(name, photo, email, password, confirmPassword);
 
     if(password !== confirmPassword){
       setError("password didn't match");
